@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'idea'
 
 // Java 8
 sourceCompatibility = 1.8
@@ -10,17 +11,24 @@ group = 'com.coder4.sbmvt'
 project.archivesBaseName = 'sbmvt-thrift-client'
 project.version = 0.1
 
+// source & javadoc pom
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+artifacts {
+    archives sourcesJar
+}
+
 repositories {
     maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
 }
 
 dependencies {
-    compile 'org.apache.commons:commons-pool2:2.4.2'
-    compile 'org.springframework.boot:spring-boot-autoconfigure'
-    compile 'org.springframework.cloud:spring-cloud-starter-eureka:1.3.1.RELEASE'
-
+    compileOnly 'org.apache.commons:commons-pool2:2.4.2'
+    compileOnly 'org.springframework.cloud:spring-cloud-starter-eureka:1.3.1.RELEASE'
     compileOnly 'org.apache.thrift:libthrift:0.9.3'
 
-    testCompile 'junit:junit:4.12'
+    testCompileOnly 'junit:junit:4.12'
 }
 
