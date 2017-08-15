@@ -1,0 +1,1 @@
+# sbmvt-thrift-common
