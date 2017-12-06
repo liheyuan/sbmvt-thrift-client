@@ -21,14 +21,41 @@ artifacts {
 }
 
 repositories {
-    maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    maven {
+        credentials {
+            username "$mavenUser"
+            password "$mavenPass"
+        }
+        url 'http://maven.coder4.com/nexus/content/groups/public'
+    }
 }
 
+// maven deploy config start
+configurations {
+    deployerJars
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(url: "http://maven.coder4.com/nexus/content/repositories/releases/") {
+            authentication(userName: "$mavenUser", password: "$mavenPass")
+        }
+        snapshotRepository(url: "http://maven.coder4.com/nexus/content/repositories/snapshots/") {
+            authentication(userName: "$mavenUser", password: "$mavenPass")
+        }
+    }
+}
+
+// maven deploy config end
+
 dependencies {
+    deployerJars "org.apache.maven.wagon:wagon-http:2.2"
+
     compile 'org.apache.commons:commons-pool2:2.4.2'
-    compile 'org.springframework.cloud:spring-cloud-starter-eureka:1.3.1.RELEASE'
+    compileOnly 'org.springframework.cloud:spring-cloud-starter-eureka:1.3.1.RELEASE'
     compileOnly 'org.apache.thrift:libthrift:0.9.3'
 
-    testCompileOnly 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
 }
 
