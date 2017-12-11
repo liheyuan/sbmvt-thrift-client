@@ -1,2 +1,3 @@
-# sbmvt-thrift-common
+# sbmvt-thrift-client
+
 
